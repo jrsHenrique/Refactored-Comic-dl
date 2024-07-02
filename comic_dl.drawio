@@ -1,0 +1,408 @@
+<mxGraphModel dx="0" dy="0" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" background="none" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="node28" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.comic_dl.ComicDL&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, argv): &lt;br/&gt; version(): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="6706" y="670" width="248" height="83" as="geometry" />
+    </mxCell>
+    <mxCell id="node31" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.configGenerator.configGenerator&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self): &lt;br/&gt; create(self): &lt;br/&gt; addItems(self): &lt;br/&gt; editConfig(self): &lt;br/&gt; removeItems(self): &lt;br/&gt; genComicsObject(self): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="213" y="4" width="363" height="169" as="geometry" />
+    </mxCell>
+    <mxCell id="node3" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.globalFunctions.GlobalFunctions&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; logging: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; page_downloader(self, manga_url, scrapper_delay=5, **kwargs): &lt;br/&gt; downloader(self, image_and_name, referer, directory_path, **kwargs): &lt;br/&gt; conversion(self, directory_path, conversion, keep_files, comic_name, chapter_number): &lt;br/&gt; addOne(self, comicUrl): &lt;br/&gt; prepend_zeroes(self, current_chapter_value, total_images): &lt;br/&gt; multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag,                              pool_size=4, **kwargs): &lt;br/&gt; create_file_directory(chapter_number, comic_name, dynamic_sub=None): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4176" y="427" width="439" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node24" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.honcho.Honcho&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_language_resolver(self, language_code): &lt;br/&gt; checker(self, comic_url, download_directory, chapter_range, **kwargs): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3072" y="380" width="419" height="83" as="geometry" />
+    </mxCell>
+    <mxCell id="node9" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.readcomiconline.RCO.ReadComicOnline&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; data: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self): &lt;br/&gt; comicSearch(self, search_query): &lt;br/&gt; comicLink(self, query): &lt;br/&gt; comicInfo(self, query): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5795" y="699" width="412" height="149" as="geometry" />
+    </mxCell>
+    <mxCell id="node20" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.readcomiconline.dataUpdate.RCOUpdater&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; data: &lt;br/&gt; session: &lt;br/&gt; link: &lt;br/&gt; scraper: &lt;br/&gt; BASE: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, link=None, name=None): &lt;br/&gt; getLastId(self, name): &lt;br/&gt; nameLink(self, name): &lt;br/&gt; alreadyExists(self, name): &lt;br/&gt; getGenre(self, el): &lt;br/&gt; getPublisher(self, el): &lt;br/&gt; getWriter(self, el): &lt;br/&gt; getArtist(self, el): &lt;br/&gt; getPublicationDate(self, el): &lt;br/&gt; getStatus(self, el): &lt;br/&gt; getNumOfChapters(self, el): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2313" y="750" width="428" height="402" as="geometry" />
+    </mxCell>
+    <mxCell id="node10" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.acQQ.AcQq&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; __decode_data(data, nonce): &lt;br/&gt; __decode_base64_data(self, base64data): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2815" y="-218" width="411" height="264" as="geometry" />
+    </mxCell>
+    <mxCell id="node26" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.batoto.Batoto&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; user_login(self, username, password, **kwargs): &lt;br/&gt; name_cleaner(self, scrapped_name): &lt;br/&gt; single_chapter(self, comic_url, download_directory, conversion, keep_files, comic_name=None, user_name=None,                        user_password=None, **kwargs): &lt;br/&gt; full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files,                     user_name=None, user_password=None, **kwargs): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1657" y="837" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node23" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.comicNaver.ComicNaver&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="6976" y="370" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node16" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.comicextra.ComicExtra&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2592" y="317" width="411" height="172" as="geometry" />
+    </mxCell>
+    <mxCell id="node13" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.foolSlide.FoolSlide&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; manga_name: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, chapter_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; image_links(self, source_code): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; full_manga(self, manga_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1114" y="271" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node6" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.hqbr.Hqbr&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1586" y="277" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node21" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.japscan.Japscan&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_id: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; manga_url: &lt;br/&gt; scraper: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; full_series(self, comic_id, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; compute_start_end(chapter_divs, chapter_range): &lt;br/&gt; single_chapter(self, chapter_path, comic_id, download_directory): &lt;br/&gt; download_image(self, image_url, file_name, referer, directory_path, pbar): &lt;br/&gt; unscramble_image(self, scrambled_image, image_full_path): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="515" y="-367" width="415" height="310" as="geometry" />
+    </mxCell>
+    <mxCell id="node4" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.kissmanga.KissManga&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2319" y="570" width="420" height="108" as="geometry" />
+    </mxCell>
+    <mxCell id="node12" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.lectortmo.LectorTmo&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; extract_image_link_from_html(self, source): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3457" y="-269" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node15" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.mangaFox.MangaFox&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2089" y="215" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node7" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.mangaHere.MangaHere&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4575" y="99" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node8" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.mangaReader.MangaReader&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; link_builder(self, link): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="5409" y="317" width="411" height="241" as="geometry" />
+    </mxCell>
+    <mxCell id="node2" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.mangadex.Mangadex&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files, volume=None): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; extract_image_link_from_html(self, source): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1841" y="557" width="412" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node5" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.manganelo.Manganelo&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; manga_url: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, manga_url, download_directory, conversion, keep_files, referer=None): &lt;br/&gt; full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="637" y="196" width="411" height="195" as="geometry" />
+    </mxCell>
+    <mxCell id="node17" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.mangatoonMobi.MangatoonMobi&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; extract_image_link_from_html(self, source): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="993" y="-184" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node11" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.omgBeauPeep.OmgBeauPeep&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; range_maker(self, manga_url, chapter_range, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, manga_url, comic_name, download_directory, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="7448" y="380" width="412" height="241" as="geometry" />
+    </mxCell>
+    <mxCell id="node14" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.quiremanhua.QuireManhua&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; manual_cookie: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; book_id: &lt;br/&gt; chapter_id: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files, **kwargs): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; get_chapter_list(self): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="-258" y="-152" width="411" height="287" as="geometry" />
+    </mxCell>
+    <mxCell id="node30" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.rawSenManga.RawSenaManga&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="643" y="519" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node18" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.readComicBooksOnline.ReadComicBooksOnline&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="4831" y="549" width="518" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node27" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.readComicsIO.ReadComicsIO&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3287" y="101" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node19" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.readComicsWebsite.ReadComicsWebsite&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="6221" y="346" width="464" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node22" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.readcomicOnlineli.ReadComicOnlineLi&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; appended_headers: &lt;br/&gt; manual_cookie: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; image_quality: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; name_cleaner(self, url): &lt;br/&gt; full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; get_image_links(self, urls): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="3758" y="10" width="438" height="310" as="geometry" />
+    </mxCell>
+    <mxCell id="node29" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.stripUtopia.StripUtopia&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; comic_name: &lt;br/&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; name_cleaner(self, source, url): &lt;br/&gt; single_chapter(self, source, comic_url, comic_name, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, source, comic_url, comic_name, sorting, download_directory, chapter_range, conversion,                     keep_files): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="2803" y="550" width="411" height="218" as="geometry" />
+    </mxCell>
+    <mxCell id="node1" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;comic_dl.sites.webtoons.Webtoons&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; sorting: &lt;br/&gt; logging: &lt;br/&gt; manga_url: &lt;br/&gt; quality: &lt;br/&gt; print_index: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __init__(self, manga_url, download_directory, chapter_range, **kwargs): &lt;br/&gt; single_chapter(self, manga_url, download_directory, conversion, keep_files): &lt;br/&gt; full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files): &lt;br/&gt; extract_chapter_links(self, source): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="15" y="253" width="411" height="241" as="geometry" />
+    </mxCell>
+    <mxCell id="node0" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;object&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __doc__: &lt;br/&gt; __dict__: &lt;br/&gt; __module__: &lt;br/&gt; __annotations__: &lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __class__(self): &lt;br/&gt; __class__(self, __type: type[object]): &lt;br/&gt; __init__(self): &lt;br/&gt; __new__(cls): &lt;br/&gt; __setattr__(self, __name: str, __value: Any): &lt;br/&gt; __delattr__(self, __name: str): &lt;br/&gt; __eq__(self, __value: object): &lt;br/&gt; __ne__(self, __value: object): &lt;br/&gt; __str__(self): &lt;br/&gt; __repr__(self): &lt;br/&gt; __hash__(self): &lt;br/&gt; __format__(self, __format_spec: str): &lt;br/&gt; __getattribute__(self, __name: str): &lt;br/&gt; __sizeof__(self): &lt;br/&gt; __reduce__(self): &lt;br/&gt; __reduce_ex__(self, __protocol: SupportsIndex): &lt;br/&gt; __reduce_ex__(self, __protocol: int): &lt;br/&gt; __getstate__(self): &lt;br/&gt; __dir__(self): &lt;br/&gt; __init_subclass__(cls): &lt;br/&gt; __subclasshook__(cls, __subclass: type): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="1218" y="559" width="329" height="609" as="geometry" />
+    </mxCell>
+    <mxCell id="node25" parent="1" vertex="1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;typing.Hashable&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; __hash__(self): &lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;">
+      <mxGeometry x="233" y="-154" width="161" height="58" as="geometry" />
+    </mxCell>
+    <mxCell id="edge24" edge="1" value="" parent="1" source="node28" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="6830" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge0" edge="1" value="" parent="1" source="node31" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.006;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="216" y="-389" />
+          <mxPoint x="2546" y="-389" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge11" edge="1" value="" parent="1" source="node3" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4395" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge27" edge="1" value="" parent="1" source="node24" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.471;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3269" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge19" edge="1" value="" parent="1" source="node9" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="6001" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge13" edge="1" value="" parent="1" source="node20" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2527" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge25" edge="1" value="" parent="1" source="node10" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3020" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge10" edge="1" value="" parent="1" source="node26" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1863" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge26" edge="1" value="" parent="1" source="node23" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="7182" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge23" edge="1" value="" parent="1" source="node16" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2546" y="403" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge18" edge="1" value="" parent="1" source="node13" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.748;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1422" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge9" edge="1" value="" parent="1" source="node6" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2043" y="386" />
+          <mxPoint x="2043" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge7" edge="1" value="" parent="1" source="node21" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="722" y="-389" />
+          <mxPoint x="2546" y="-389" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge28" edge="1" value="" parent="1" source="node4" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.495;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2527" y="324" />
+          <mxPoint x="2546" y="324" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge30" edge="1" value="" parent="1" source="node12" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3662" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge20" edge="1" value="" parent="1" source="node15" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2546" y="324" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge14" edge="1" value="" parent="1" source="node7" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="4781" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge17" edge="1" value="" parent="1" source="node8" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="5614" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge2" edge="1" value="" parent="1" source="node2" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.443;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="2024" y="401" />
+          <mxPoint x="2043" y="401" />
+          <mxPoint x="2043" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge15" edge="1" value="" parent="1" source="node5" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.769;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="953" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge12" edge="1" value="" parent="1" source="node17" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="1199" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge29" edge="1" value="" parent="1" source="node11" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="7654" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge3" edge="1" value="" parent="1" source="node14" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="-52" y="-389" />
+          <mxPoint x="2546" y="-389" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge1" edge="1" value="" parent="1" source="node30" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="849" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge16" edge="1" value="" parent="1" source="node18" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="5090" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge6" edge="1" value="" parent="1" source="node27" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.371;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3439" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge21" edge="1" value="" parent="1" source="node19" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="6453" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge8" edge="1" value="" parent="1" source="node22" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3977" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge4" edge="1" value="" parent="1" source="node29" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="3009" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge5" edge="1" value="" parent="1" source="node1" target="node0" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.440;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="196" y="-389" />
+          <mxPoint x="2546" y="-389" />
+          <mxPoint x="2546" y="-332" />
+          <mxPoint x="1568" y="-332" />
+          <mxPoint x="1568" y="1191" />
+          <mxPoint x="1383" y="1191" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="edge22" edge="1" value="" parent="1" source="node0" target="node25" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=1;startArrow=block;startSize=12;endArrow=none;strokeColor=#595959;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.500;entryY=1.001;entryDx=0;entryDy=0;">
+      <mxGeometry width="50" height="50" relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="609" y="864" />
+          <mxPoint x="609" y="-24" />
+          <mxPoint x="314" y="-24" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+  </root>
+</mxGraphModel>
