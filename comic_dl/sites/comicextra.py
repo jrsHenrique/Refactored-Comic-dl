@@ -6,53 +6,40 @@ from comic_dl import globalFunctions
 import os
 import logging
 
+from comic_dl.sites.mangaDownloader import MangaDownloader
 
-class ComicExtra(object):
+
+class ComicExtra(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        current_directory = kwargs.get("current_directory")
-        conversion = kwargs.get("conversion")
-        keep_files = kwargs.get("keep_files")
-        self.logging = kwargs.get("log_flag")
-        self.sorting = kwargs.get("sorting_order")
-        # self.comic_name = self.name_cleaner(manga_url)
-        self.print_index = kwargs.get("print_index")
+        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
 
-        if "/comic/" not in manga_url:
-            # http://www.comicextra.com/captain-marvel-2016/chapter-10
-            # http://www.comicextra.com/steven-universe-ongoing/chapter-13
-            if "/full" not in manga_url:
-                if manga_url[-1] == "/":
-                    manga_url += "full"
-                else:
-                    manga_url += "/full"
-            self.single_chapter(manga_url, download_directory,
-                                conversion=conversion, keep_files=keep_files)
+        if "/comic/" in manga_url:
+            self.full_series()
         else:
-            self.full_series(comic_url=manga_url, sorting=self.sorting, download_directory=download_directory,
-                             chapter_range=chapter_range, conversion=conversion, keep_files=keep_files)
+            self.single_chapter(manga_url)
 
-    def single_chapter(self, comic_url, download_directory, conversion, keep_files):
-        comic_name = re.sub(r"[0-9][a-z][A-Z]\ ", "",
-                            str(comic_url).split("/")[3].replace("%20", " ").replace("-", " ").title())
+    def name_cleaner(self, url):
+        return re.sub(r"[0-9][a-z][A-Z]\ ", "", url.split("/")[-1].replace("%20", " ").replace("-", " ").title())
+
+    def user_login(self):
+        pass
+
+    def single_chapter(self, comic_url):
+        comic_name = self.name_cleaner(comic_url)
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
         img_list = []
 
         first_image_link_bs = source.find_all('div', {'class': 'chapter-main'})
-        # print(first_image_link_bs)
         for single_node in first_image_link_bs:
             x = single_node.findAll('img')
             for a in x:
                 img_list.append(str(a['src']).strip())
-        # http://www.comicextra.com/steven-universe-ongoing/chapter-13
-        chapter_number = str(comic_url.split("-")[-1]).replace("/full", "")
-        # print(chapter_number)
 
-        # total_pages = re.search(r'>of (.*?)</div>', str(source)).group(1)
+        chapter_number = comic_url.split("-")[-1].replace("/full", "")
         total_pages = len(img_list)
-        # print(total_pages)
 
         file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, comic_name)
-        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
+        directory_path = os.path.realpath(self.download_directory + "/" + file_directory)
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
@@ -61,83 +48,40 @@ class ComicExtra(object):
         file_names = []
         for current_chapter, chapter_link in enumerate(img_list):
             current_chapter += 1
-            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, len(img_list))) + ".jpg"
-            
+            file_name = str(globalFunctions.GlobalFunctions().prepend_zeroes(current_chapter, total_pages)) + ".jpg"
             file_names.append(file_name)
             links.append(chapter_link)
 
         globalFunctions.GlobalFunctions().multithread_download(chapter_number, comic_name, comic_url, directory_path,
                                                                file_names, links, self.logging)
-            
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, comic_name,
+        globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.keep_files, comic_name,
                                                      chapter_number)
 
         return 0
 
-    def full_series(self, comic_url, sorting, download_directory, chapter_range, conversion, keep_files):
-        comic_name = re.sub(r"[0-9][a-z][A-Z]\ ", "",
-                            str(comic_url).split("/")[4].replace("%20", " ").replace("-", " ").title())
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+    def full_series(self):
+        comic_name = self.name_cleaner(self.manga_url)
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=self.manga_url)
         all_links = []
         chap_holder_div = source.find_all('tbody', {'id': 'list'})
-        # print(comic_name)
         for single_node in chap_holder_div:
             x = single_node.findAll('a')
             for a in x:
                 all_links.append(str(a['href']).strip())
 
-        if chapter_range != "All":
-            # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
-            starting = int(str(chapter_range).split("-")[0]) - 1
+        indexes = self.get_chapter_range_indices(self.chapter_range, len(all_links))
+        chapters_to_download = [all_links[x] for x in indexes]
 
-            if str(chapter_range).split("-")[1].isdigit():
-                ending = int(str(chapter_range).split("-")[1])
-            else:
-                ending = len(all_links)
-
-            indexes = [x for x in range(starting, ending)]
-
-            all_links = [all_links[x] for x in indexes][::-1]
-        else:
-            all_links = all_links
-        if not all_links:
-            print("Couldn't Find the chapter list")
+        if not chapters_to_download:
+            print("Couldn't find the chapter list")
             return 1
-        # all_links.pop(0) # Because this website lists the next chapter, which is NOT available.
 
-        if self.print_index:
-            idx = len(all_links)
-            for chap_link in all_links:
-                print(str(idx) + ": " + chap_link)
-                idx = idx - 1
-            return
+        for chap_link in chapters_to_download:
+            chap_link += "/full"
+            self.single_chapter(chap_link)
 
-        if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
-            for chap_link in all_links:
-                chap_link += "/full"
-                try:
-                    self.single_chapter(comic_url=chap_link, download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
-                except Exception as ex:
-                    logging.error("Error downloading : %s" % chap_link)
-                    break  # break to continue processing other mangas
-                # if chapter range contains "__EnD__" write new value to config.json
-                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
-                if chapter_range != "All" and (chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
-                    globalFunctions.GlobalFunctions().addOne(comic_url)
-
-        elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
-            for chap_link in all_links[::-1]:
-                chap_link += "/full"
-                try:
-                    self.single_chapter(comic_url=chap_link, download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
-                except Exception as ex:
-                    logging.error("Error downloading : %s" % chap_link)
-                    break  # break to continue processing other mangas
-                # if chapter range contains "__EnD__" write new value to config.json
-                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
-                if chapter_range != "All" and (chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
-                    globalFunctions.GlobalFunctions().addOne(comic_url)
-
-        return 0
+    def get_chapter_range_indices(self, range_spec, total_chapters):
+        if range_spec == "All":
+            return range(total_chapters)
+        start, end = map(int, range_spec.split("-"))
+        return range(start - 1, end)  # assuming chapter_range is 1-based

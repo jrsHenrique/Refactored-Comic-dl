@@ -8,35 +8,26 @@ import os
 import logging
 import base64
 
+from comic_dl.sites.mangaDownloader import MangaDownloader
+
 """A HUGE thanks to @abcfy2 for his amazing implementation of the ac.qq.com APIs.
 Original code for ac.qq.com : https://github.com/abcfy2/getComic/
 """
 
-
-class AcQq(object):
+class AcQq(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        current_directory = kwargs.get("current_directory")
-        conversion = kwargs.get("conversion")
-        keep_files = kwargs.get("keep_files")
-        self.logging = kwargs.get("log_flag")
-        self.sorting = kwargs.get("sorting_order")
-        self.comic_name = self.name_cleaner(manga_url)
-        self.print_index = kwargs.get("print_index")
-
+        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
         if "/index/" in str(manga_url):
-            self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                keep_files=keep_files)
+            self.single_chapter(manga_url, self.comic_name, self.download_directory, self.conversion, self.keep_files)
         else:
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
-                             download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                             keep_files=keep_files)
+            self.full_series(manga_url, self.comic_name, self.sorting, self.download_directory, self.chapter_range, self.conversion, self.keep_files)
 
     def name_cleaner(self, url):
         initial_name = re.search(r"id/(\d+)", str(url)).group(1)
         safe_name = re.sub(r"[0-9][a-z][A-Z]\ ", "", str(initial_name))
         manga_name = str(safe_name.title()).replace("_", " ")
-
         return manga_name
+
 
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = re.search(r"cid/(\d+)", str(comic_url)).group(1)

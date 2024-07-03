@@ -9,26 +9,25 @@ import sys
 import re
 import os
 
+from comic_dl.sites.mangaDownloader import MangaDownloader
 
-class Batoto:
+
+class Batoto(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        user_name = kwargs.get("username")
-        password = kwargs.get("password")
-        comic_language = kwargs.get("comic_language")
-        current_directory = kwargs.get("current_directory")
-        conversion = kwargs.get("conversion")
-        keep_files = kwargs.get("keep_files")
-        self.logging = kwargs.get("log_flag")
-        self.sorting = kwargs.get("sorting_order")
-        self.print_index = kwargs.get("print_index")
+        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
+        self.user_name = kwargs.get("username")
+        self.password = kwargs.get("password")
+        self.comic_language = kwargs.get("comic_language")
 
-        if "/reader#" in  str(manga_url):
-            self.single_chapter(comic_url=manga_url, download_directory=download_directory, conversion=conversion,
-                                keep_files=keep_files, user_name=user_name, user_password=password)
+        if "/reader#" in str(manga_url):
+            self.single_chapter(comic_url=manga_url, download_directory=download_directory,
+                                conversion=self.conversion, keep_files=self.keep_files,
+                                user_name=self.user_name, user_password=self.password)
         else:
             self.full_series(comic_url=manga_url, sorting=self.sorting, download_directory=download_directory,
-                             chapter_range=chapter_range, conversion=conversion, keep_files=keep_files,
-                             user_name=user_name, user_password=password, manga_language=comic_language)
+                             chapter_range=chapter_range, conversion=self.conversion,
+                             keep_files=self.keep_files, user_name=self.user_name,
+                             user_password=self.password, manga_language=self.comic_language)
 
     def user_login(self, username, password, **kwargs):
         session_cookie = ""
