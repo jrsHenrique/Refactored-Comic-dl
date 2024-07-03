@@ -1,75 +1,96 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    from urlparse import urlparse
 import logging
-from .sites import foolSlide
-from .sites import readcomicOnlineli
-from .sites import comicNaver
-from .sites import mangaHere
-from .sites import rawSenManga
-from .sites import mangaFox
-from .sites import omgBeauPeep
-from .sites import mangaReader
-from .sites import acQQ
-from .sites import stripUtopia
-from .sites import readComicBooksOnline
-from .sites import readComicsWebsite
-from .sites import batoto
-from .sites import hqbr
-from .sites import comicextra
-from .sites import readComicsIO
-from .sites import japscan
-from .sites import manganelo
-from .sites import webtoons
-from .sites import lectortmo
-from .sites import mangatoonMobi
-from .sites import mangadex
-from .sites import quiremanhua
-
+from urllib.parse import urlparse
+from .sites import (foolSlide, readcomicOnlineli, comicNaver, mangaHere, rawSenManga, mangaFox,
+                    omgBeauPeep, mangaReader, acQQ, stripUtopia, readComicBooksOnline, readComicsWebsite,
+                    batoto, hqbr, comicextra, readComicsIO, japscan, manganelo, webtoons, lectortmo,
+                    mangatoonMobi, mangadex, quiremanhua)
 
 class Honcho(object):
+    def __init__(self):
+        self.site_map = {
+            "yomanga.co": foolSlide.FoolSlide,
+            "gomanga.co": foolSlide.FoolSlide,
+            "www.readcomiconline.li": readcomicOnlineli.ReadComicOnlineLi,
+            "readcomiconline.li": readcomicOnlineli.ReadComicOnlineLi,
+            "www.readcomicsonline.ru": readcomicOnlineli.ReadComicOnlineLi,
+            "readcomicsonline.ru": readcomicOnlineli.ReadComicOnlineLi,
+            "www.comic.naver.com": comicNaver.ComicNaver,
+            "comic.naver.com": comicNaver.ComicNaver,
+            "www.mangahere.co": mangaHere.MangaHere,
+            "mangahere.co": mangaHere.MangaHere,
+            "www.mangahere.cc": mangaHere.MangaHere,
+            "mangahere.cc": mangaHere.MangaHere,
+            "www.raw.senmanga.com": rawSenManga.RawSenaManga,
+            "raw.senmanga.com": rawSenManga.RawSenaManga,
+            "www.mangafox.me": mangaFox.MangaFox,
+            "mangafox.me": mangaFox.MangaFox,
+            "www.mangafox.la": mangaFox.MangaFox,
+            "mangafox.la": mangaFox.MangaFox,
+            "www.fanfox.net": mangaFox.MangaFox,
+            "fanfox.net": mangaFox.MangaFox,
+            "www.omgbeaupeep.com": omgBeauPeep.OmgBeauPeep,
+            "omgbeaupeep.com": omgBeauPeep.OmgBeauPeep,
+            "www.otakusmash.com": omgBeauPeep.OmgBeauPeep,
+            "otakusmash.com": omgBeauPeep.OmgBeauPeep,
+            "www.ac.qq.com": acQQ.AcQq,
+            "ac.qq.com": acQQ.AcQq,
+            "www.striputopija.blogspot.in": stripUtopia.StripUtopia,
+            "striputopija.blogspot.in": stripUtopia.StripUtopia,
+            "www.striputopija.blogspot.com": stripUtopia.StripUtopia,
+            "striputopija.blogspot.com": stripUtopia.StripUtopia,
+            "www.mangareader.net": mangaReader.MangaReader,
+            "mangareader.net": mangaReader.MangaReader,
+            "www.readcomicbooksonline.net": readComicBooksOnline.ReadComicBooksOnline,
+            "readcomicbooksonline.net": readComicBooksOnline.ReadComicBooksOnline,
+            "www.readcomicbooksonline.org": readComicBooksOnline.ReadComicBooksOnline,
+            "readcomicbooksonline.org": readComicBooksOnline.ReadComicBooksOnline,
+            "www.readcomics.website": readComicsWebsite.ReadComicsWebsite,
+            "readcomics.website": readComicsWebsite.ReadComicsWebsite,
+            "www.japscan.to": japscan.Japscan,
+            "japscan.to": japscan.Japscan,
+            "www.hqbr.com.br": hqbr.Hqbr,
+            "hqbr.com.br": hqbr.Hqbr,
+            "www.comicextra.com": comicextra.ComicExtra,
+            "comicextra.com": comicextra.ComicExtra,
+            "www.readcomics.io": readComicsIO.ReadComicsIO,
+            "readcomics.io": readComicsIO.ReadComicsIO,
+            "www.kissmanga.com": None,  # Placeholder for KissManga
+            "kissmanga.com": None,       # Placeholder for KissManga
+            "www.bato.to": batoto.Batoto,
+            "bato.to": batoto.Batoto,
+            "manganelo.com": manganelo.Manganelo,
+            "mangakakalot.com": manganelo.Manganelo,
+            "manganato.com": manganelo.Manganelo,
+            "readmanganato.com": manganelo.Manganelo,
+            "chapmanganato.com": manganelo.Manganelo,
+            "chapmanganato.to": manganelo.Manganelo,
+            "www.webtoons.com": webtoons.Webtoons,
+            "webtoons.com": webtoons.Webtoons,
+            "www.lectortmo.com": lectortmo.LectorTmo,
+            "lectortmo.com": lectortmo.LectorTmo,
+            "www.mangatoon.mobi": mangatoonMobi.MangatoonMobi,
+            "mangatoon.mobi": mangatoonMobi.MangatoonMobi,
+            "www.mangadex.org": mangadex.Mangadex,
+            "mangadex.org": mangadex.Mangadex,
+            "www.qiremanhua.com": quiremanhua.QuireManhua,
+            "qiremanhua.com": quiremanhua.QuireManhua,
+        }
+
     def comic_language_resolver(self, language_code):
-        # Will return the Language Name corresponding to the language code.
         language_dict = {
-            '0': 'English',
-            '1': 'Italian',
-            '2': 'Spanish',
-            '3': 'French',
-            '4': 'German',
-            '5': 'Portuguese',
-            '6': 'Turkish',
-            '7': 'Indonesian',
-            '8': 'Greek',
-            '9': 'Filipino',
-            '10': 'Polish',
-            '11': 'Thai',
-            '12': 'Malay',
-            '13 ': 'Hungarian',
-            '14': 'Romanian',
-            '15': ' Arabic',
-            '16': 'Hebrew',
-            '17': 'Russian',
-            '18': 'Vietnamese',
-            '19': 'Dutch',
-            '20': 'Bengali',
-            '21': 'Persian',
-            '22': 'Czech',
-            '23': 'Brazilian',
-            '24': 'Bulgarian',
-            '25': 'Danish',
-            '26': 'Esperanto',
-            '27': 'Swedish',
-            '28': 'Lithuanian',
-            '29': 'Other'
+            '0': 'English', '1': 'Italian', '2': 'Spanish', '3': 'French', '4': 'German', 
+            '5': 'Portuguese', '6': 'Turkish', '7': 'Indonesian', '8': 'Greek', '9': 'Filipino', 
+            '10': 'Polish', '11': 'Thai', '12': 'Malay', '13': 'Hungarian', '14': 'Romanian', 
+            '15': 'Arabic', '16': 'Hebrew', '17': 'Russian', '18': 'Vietnamese', '19': 'Dutch', 
+            '20': 'Bengali', '21': 'Persian', '22': 'Czech', '23': 'Brazilian', '24': 'Bulgarian', 
+            '25': 'Danish', '26': 'Esperanto', '27': 'Swedish', '28': 'Lithuanian', '29': 'Other'
         }
         return language_dict[language_code]
 
     def checker(self, comic_url, download_directory, chapter_range, **kwargs):
-
         user_name = kwargs.get("username")
         password = kwargs.get("password")
         current_directory = kwargs.get("current_directory")
@@ -77,195 +98,30 @@ class Honcho(object):
         sorting = kwargs.get("sorting_order")
         comic_language = kwargs.get("comic_language")
         print_index = kwargs.get("print_index")
-        manual_cookies = kwargs.get("cookie", None)
+        manual_cookies = kwargs.get("cookie")
 
-        if log_flag is True:
+        if log_flag:
             logging.basicConfig(format='%(levelname)s: %(message)s', filename="Error Log.log", level=logging.DEBUG)
             logging.debug("Comic Url : %s" % comic_url)
 
         domain = urlparse(comic_url).netloc
         logging.debug("Selected Domain : %s" % domain)
 
-        # Remove the "/" from ending to make checking URL for Full Series or Single Chapter easier.
-        if comic_url[-1] == "/":
+        # Remove trailing "/" to simplify URL checking
+        if comic_url.endswith("/"):
             comic_url = comic_url[:-1]
 
-        if domain in ["yomanga.co", "gomanga.co"]:
-            foolSlide.FoolSlide(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                keep_files=kwargs.get("keep_files"))
-            return 0
-        elif domain in ["www.readcomiconline.li", "readcomiconline.li", "www.readcomicsonline.ru",
-                        "readcomicsonline.ru"]:
-            readcomicOnlineli.ReadComicOnlineLi(manga_url=comic_url, logger=logging,
-                                                current_directory=current_directory, sorting_order=sorting,
-                                                log_flag=log_flag, download_directory=download_directory,
-                                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                                keep_files=kwargs.get("keep_files"),
-                                                image_quality=kwargs.get("image_quality"),
-                                                print_index=print_index, manual_cookies=manual_cookies)
-            return 0
-        elif domain in ["www.comic.naver.com", "comic.naver.com"]:
-            comicNaver.ComicNaver(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                  sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                  chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                  keep_files=kwargs.get("keep_files"),
-                                  print_index=print_index)
-            return 0
-        elif domain in ["www.mangahere.co", "mangahere.co", "www.mangahere.cc", "mangahere.cc"]:
-            mangaHere.MangaHere(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                keep_files=kwargs.get("keep_files"),
-                                print_index=print_index)
-            return 0
-        elif domain in ["www.raw.senmanga.com", "raw.senmanga.com"]:
-            rawSenManga.RawSenaManga(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                     sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                     chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                     keep_files=kwargs.get("keep_files"),
-                                     print_index=print_index)
-            return 0
-        elif domain in ["www.mangafox.me", "mangafox.me", "www.mangafox.la", "mangafox.la", "www.fanfox.net",
-                        "fanfox.net"]:
-            mangaFox.MangaFox(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                              sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                              chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                              keep_files=kwargs.get("keep_files"),
-                              print_index=print_index)
-            return 0
-        elif domain in ["www.omgbeaupeep.com", "omgbeaupeep.com", "www.otakusmash.com", "otakusmash.com"]:
-            omgBeauPeep.OmgBeauPeep(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                    keep_files=kwargs.get("keep_files"),
-                                    print_index=print_index)
-            return 0
-        #  TODO KO --print-index -i http://ac.qq.com/Comic/comicInfo/id/547059?trace_id=907_27.156.162.231_1539265645  broken?
-        elif domain in ["www.ac.qq.com", "ac.qq.com"]:
-            acQQ.AcQq(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                      chapter_range=chapter_range,
-                      print_index=print_index)
-            return 0
-        elif domain in ["www.striputopija.blogspot.in", "striputopija.blogspot.in", "www.striputopija.blogspot.com",
-                        "striputopija.blogspot.com"]:
-            stripUtopia.StripUtopia(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range,
-                                    print_index=print_index)
-            return 0
-        elif domain in ["www.mangareader.net", "mangareader.net"]:
-            mangaReader.MangaReader(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                    keep_files=kwargs.get("keep_files"),
-                                    print_index=print_index)
-            return 0
-        elif domain in ["www.readcomicbooksonline.net", "readcomicbooksonline.net", "www.readcomicbooksonline.org",
-                        "readcomicbooksonline.org"]:
-            readComicBooksOnline.ReadComicBooksOnline(manga_url=comic_url, logger=logging,
-                                                      current_directory=current_directory, sorting_order=sorting,
-                                                      log_flag=log_flag, download_directory=download_directory,
-                                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                                      keep_files=kwargs.get("keep_files"),
-                                                      print_index=print_index)
-            return 0
-        #  TODO KO seems broken
-        elif domain in ["www.readcomics.website", "readcomics.website"]:
-            readComicsWebsite.ReadComicsWebsite(manga_url=comic_url, logger=logging,
-                                                current_directory=current_directory, sorting_order=sorting,
-                                                log_flag=log_flag, download_directory=download_directory,
-                                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                                keep_files=kwargs.get("keep_files"),
-                                                print_index=print_index)
-            return 0
-        elif domain in ["www.japscan.to"]:
-            japscan.Japscan(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                            sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                            chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                            keep_files=kwargs.get("keep_files"),
-                            print_index=print_index)
-            return 0
-        elif domain in ["www.hqbr.com.br", "hqbr.com.br"]:
-            hqbr.Hqbr(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                      keep_files=kwargs.get("keep_files"),
-                      print_index=print_index)
-            return 0
-        elif domain in ["www.comicextra.com", "comicextra.com"]:
-            comicextra.ComicExtra(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                  sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                  chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                  keep_files=kwargs.get("keep_files"),
-                                  print_index=print_index)
-            return 0
-        #  TODO KO seems broken
-        elif domain in ["www.readcomics.io", "readcomics.io"]:
-            readComicsIO.ReadComicsIO(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                      sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                      chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                      keep_files=kwargs.get("keep_files"),
-                                      print_index=print_index)
-            return 0
-        elif domain in ["www.kissmanga.com", "kissmanga.com"]:
-            # kissManga.KissManga(manga_url = comic_url, logger = logging,
-            #  current_directory = current_directory, sorting_order = sorting)
-            print("Under Development!")
-            return 0
-        elif domain in ["www.bato.to", "bato.to"]:
-            batoto.Batoto(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                          sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                          chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                          keep_files=kwargs.get("keep_files"), username=user_name, password=password,
-                          comic_language=self.comic_language_resolver(comic_language),
-                          print_index=print_index)
-            return 0
-        elif domain in [
-            "manganelo.com",
-            "mangakakalot.com",
-            "manganato.com",
-            "readmanganato.com",
-            "chapmanganato.com",
-            "chapmanganato.to"
-        ]:
-            manganelo.Manganelo(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                keep_files=kwargs.get("keep_files"),
-                                print_index=print_index)
-            return 0
-        elif domain in ["www.webtoons.com", "webtoons.com"]:
-            webtoons.Webtoons(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                              sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                              chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                              keep_files=kwargs.get("keep_files"), image_quality=kwargs.get("image_quality"))
-            return 0
-        elif domain in ["www.lectortmo.com", "lectortmo.com"]:
-            lectortmo.LectorTmo(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                keep_files=kwargs.get("keep_files"),
-                                print_index=print_index)
-        elif domain in ["www.mangatoon.mobi", "mangatoon.mobi"]:
-            mangatoonMobi.MangatoonMobi(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                        sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                        chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                        keep_files=kwargs.get("keep_files"),
-                                        print_index=print_index)
-        elif domain in ["www.mangadex.org", "mangadex.org"]:
-            mangadex.Mangadex(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                              sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                              chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                              keep_files=kwargs.get("keep_files"),
-                              print_index=print_index)
-        elif domain in ["www.qiremanhua.com", "qiremanhua.com"]:
-            quiremanhua.QuireManhua(manga_url=comic_url, logger=logging, current_directory=current_directory,
-                                    sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
-                                    chapter_range=chapter_range, conversion=kwargs.get("conversion"),
-                                    keep_files=kwargs.get("keep_files"),
-                                    print_index=print_index, manual_cookies=manual_cookies)
+        if domain in self.site_map:
+            site_class = self.site_map[domain]
+            if site_class:
+                site_class(manga_url=comic_url, logger=logging, current_directory=current_directory,
+                           sorting_order=sorting, log_flag=log_flag, download_directory=download_directory,
+                           chapter_range=chapter_range, conversion=kwargs.get("conversion"),
+                           keep_files=kwargs.get("keep_files"),
+                           print_index=print_index, manual_cookies=manual_cookies)
+            else:
+                print("%s is not supported at the moment. You can request it on the Github repository." % domain)
         else:
             print("%s is not supported at the moment. You can request it on the Github repository." % domain)
+
+        return 0
