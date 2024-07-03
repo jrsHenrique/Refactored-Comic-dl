@@ -4,202 +4,176 @@ import json
 from builtins import input
 
 
-CONFIG_FILE="config.json"
+CONFIG_FILE = "config.json"
 
-class configGenerator(object):
+
+class ConfigGenerator:
     def __init__(self):
-        print("Welcome to the Pull List Config Generator!")
-        print("")
+        print("Welcome to the Pull List Config Generator!\n")
 
         if os.path.isfile(CONFIG_FILE):
-            while True:
-                print("Previous config found! Do you wanna...")
-                print("1. Add new items to pull list?")
-                print("2. Remove item from pull list?")
-                print("3. Edit config file?")
-                print("\n0. Quit")
-                choice = input(" >>  ")
-                
-                os.system('clear')
-
-                if not choice or "0" == choice:
-                    break
-                elif "1" == choice:
-                    self.addItems()
-                    os.system("clear")                    
-                elif "2" == choice:
-                    self.removeItems()
-                    os.system("clear")
-                elif "3" == choice:
-                    self.editConfig()
-                    os.system("clear")
-                else:
-                    os.system("clear")
-                    print("That functionality doesn't exist yet, bye!")
-            print("Done!")
-            print("May the F=m*a be with you!")
+            self.handle_existing_config()
         else:
             print("No config file found! Let's create a new one...")
-            self.create()
-    
-    def create(self):
-        data = {}
-        # common attributes for comics
-        print("Note: to use the default values just hit INTRO")
-        print
+            self.create_config()
 
-        print("download directory (default '<here>/comics')")
-        data["download_directory"] = input(" >> ")
-        print("sorting order (default 'ascending')")
-        data["sorting_order"] = input("[ ascending | descending ] >> ")
-        print("conversion (default 'none')")
-        data["conversion"] = input("[ cbz | pdf ] >> ")
-        print("keep images after conversion (default 'True', forced 'True' if no conversion)")
-        data["keep"] = input("[ True | False ] >> ")
-        print("image quality (default 'Best')")
-        data["image_quality"] = input("[ Best | Low ] >> ")
-
-        # check mandatories and defaults
-        if not data["sorting_order"]:
-            data["sorting_order"] = "ascending"
-        if not data["download_directory"]:
-            data["download_directory"] = "comics"
-        if not data["keep"]:
-            data["keep"] = "True"
-        if not data["conversion"]:
-            data["conversion"] = "None"
-            data["keep"] = "True"
-        if not data["image_quality"]:
-            data["image_quality"] = "Best"
-
-
-        # add comics
-        os.system('clear')
-        print("Now the comics :)")
-        print("Remember to use the series link not the chapter/issue!")
-
-        data["comics"] = self.genComicsObject()
-        os.system('clear')
-
-        # write config file
-        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
-
-        return
-
-    def addItems(self):
-        data = json.load(open('config.json'))
-
-        data["comics"].update(self.genComicsObject())
-
-        # write config file
-        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
-        return
-    
-    def editConfig(self):
-        data = json.load(open('config.json'))
+    def handle_existing_config(self):
         while True:
-            print("Select field to edit")
-            options = {}
-            index = 0
-            # gen list to choose
-            for key, value in data.items():
-                options[index] = key
-                if not "comics" == key:
-                    print(str(index)+". "+key+" (actual value: "+data[key]+")")
-                    index = index + 1
-            print
+            choice = self.display_menu()
+            if not choice or choice == "0":
+                break
+            elif choice == "1":
+                self.add_items()
+            elif choice == "2":
+                self.remove_items()
+            elif choice == "3":
+                self.edit_config()
+            else:
+                print("That functionality doesn't exist yet, bye!")
+            print("Done!")
+            print("May the F=m*a be with you!")
+
+    def display_menu(self):
+        print("Previous config found! Do you wanna...")
+        print("1. Add new items to pull list?")
+        print("2. Remove item from pull list?")
+        print("3. Edit config file?")
+        print("\n0. Quit")
+        choice = input(" >>  ")
+        os.system('clear')
+        return choice
+
+    def create_config(self):
+        data = self.collect_config_data()
+        data["comics"] = self.gen_comics_object()
+        self.save_config(data)
+
+    def collect_config_data(self):
+        data = {}
+        data["download_directory"] = self.get_input("download directory (default '<here>/comics')", "comics")
+        data["sorting_order"] = self.get_input("sorting order (default 'ascending')", "ascending", ["ascending", "descending"])
+        data["conversion"] = self.get_input("conversion (default 'none')", "None", ["cbz", "pdf"])
+        data["keep"] = self.get_input("keep images after conversion (default 'True', forced 'True' if no conversion)", "True", ["True", "False"])
+        data["image_quality"] = self.get_input("image quality (default 'Best')", "Best", ["Best", "Low"])
+        return data
+
+    def get_input(self, prompt, default, options=None):
+        while True:
+            print(f"{prompt}")
+            user_input = input(" >> ")
+            if not user_input:
+                return default
+            if options and user_input not in options:
+                print(f"Invalid choice, please choose from {options}")
+            else:
+                return user_input
+
+    def add_items(self):
+        data = self.load_config()
+        new_comics = self.gen_comics_object()
+        data["comics"].update(new_comics)
+        self.save_config(data)
+
+    def edit_config(self):
+        data = self.load_config()
+        self.edit_config_fields(data)
+        self.save_config(data)
+
+    def edit_config_fields(self, data):
+        while True:
+            options = self.display_edit_options(data)
             choice = input("leave blank to finish >> ")
             if not choice:
                 break
-            if not int(choice) in options:
-                os.system("clear")                
+            if not choice.isdigit() or int(choice) not in options:
+                os.system("clear")
                 print("Bad choice, try again!")
                 continue
-            data[options[int(choice)]] = input("Editing '"+options[int(choice)]+"': "+ data[options[int(choice)]]+" >> ")
-            os.system("clear")                
-            
-        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
-        return
+            field = options[int(choice)]
+            data[field] = input(f"Editing '{field}': {data[field]} >> ")
+            os.system("clear")
 
-    def removeItems(self):
-        data = json.load(open('config.json'))
-        comics = data["comics"]
-        
-        if comics == {}:
-            print("No comics!")
-            print("Add comics first!!")
-            return
-
-        while True:
-            print("Select series to remove from pull list")
-            options = {}
-            index = 0
-            # gen list to choose
-            for key, value in comics.items():
+    def display_edit_options(self, data):
+        print("Select field to edit")
+        options = {}
+        for index, key in enumerate(data.keys()):
+            if key != "comics":
                 options[index] = key
-                print(str(index)+". "+key+" (next chapter: "+str(value["next"])+")")
-                index = index + 1
-            
-            if not 0 in options:
+                print(f"{index}. {key} (actual value: {data[key]})")
+        print()
+        return options
+
+    def remove_items(self):
+        data = self.load_config()
+        comics = data["comics"]
+        if not comics:
+            print("No comics! Add comics first!")
+            return
+        self.remove_comic_items(comics)
+        data["comics"] = comics
+        self.save_config(data)
+
+    def remove_comic_items(self, comics):
+        while True:
+            options = self.display_comics_options(comics)
+            if not options:
                 print("No more options, bye!")
                 break
-
-            print
             choice = input("leave blank to finish >> ")
             if not choice:
                 break
-            if not int(choice) in options:
-                os.system("clear")                
+            if not choice.isdigit() or int(choice) not in options:
+                os.system("clear")
                 print("Bad choice, try again!")
                 continue
-            
             del comics[options[int(choice)]]
-            os.system("clear")            
-        
-        data["comics"] = comics
-        json.dump(data, open(CONFIG_FILE, 'w'), indent=4)
+            os.system("clear")
 
-    def genComicsObject(self):
+    def display_comics_options(self, comics):
+        print("Select series to remove from pull list")
+        options = {}
+        for index, (key, value) in enumerate(comics.items()):
+            options[index] = key
+            print(f"{index}. {key} (next chapter: {value['next']})")
+        print()
+        return options
+
+    def gen_comics_object(self):
         comics = {}
         while True:
-            comic = {}
-            print("Series link for comics (leave empty to finish)")
-            comic["url"] = input(" >> ")
+            comic = self.collect_comic_data()
             if not comic["url"]:
                 break
-            print("Next chapter to download (default 1)")
-            comic["next"] = input(" >> ")
-            
-            # @Christ-oo - Added range functionality
-            print("Last chapter to download (leave blank if download all)")
-            comic["last"] = input(" >> ")
-
-            print("Page login username (leave blank if not needed)")
-            comic["username"] = input(" >> ")
-            print("Page login password (leave blank if not needed)")
-            comic["password"] = input(" >> ")
-            print("Comic language (default 0)")
-            comic["comic_language"] = input(" >> ")
-
-            if not comic["next"]:
-                comic["next"] = 1
-            else:
-                comic["next"] = int(comic["next"])
-
-            # @Christ-oo
-            if not comic["last"]:
-                comic["last"] = "None" 
-            else:
-                comic["last"] = int(comic["last"])
-            
-            if not comic["username"]:
-                comic["username"] = "None"
-            if not comic["password"]:
-                comic["password"] = "None"
-            if not comic["comic_language"]:
-                comic["comic_language"] = "0"
-
             comics[comic["url"]] = comic
             os.system('clear')
-
         return comics
+
+    def collect_comic_data(self):
+        comic = {}
+        comic["url"] = input("Series link for comics (leave empty to finish) >> ")
+        if not comic["url"]:
+            return comic
+        comic["next"] = self.get_comic_input("Next chapter to download (default 1)", 1)
+        comic["last"] = self.get_comic_input("Last chapter to download (leave blank if download all)", "None")
+        comic["username"] = input("Page login username (leave blank if not needed) >> ") or "None"
+        comic["password"] = input("Page login password (leave blank if not needed) >> ") or "None"
+        comic["comic_language"] = input("Comic language (default 0) >> ") or "0"
+        return comic
+
+    def get_comic_input(self, prompt, default):
+        value = input(f"{prompt} >> ")
+        if not value:
+            return default
+        return int(value) if value.isdigit() else value
+
+    def load_config(self):
+        with open(CONFIG_FILE, 'r') as file:
+            return json.load(file)
+
+    def save_config(self, data):
+        with open(CONFIG_FILE, 'w') as file:
+            json.dump(data, file, indent=4)
+
+
+if __name__ == '__main__':
+    ConfigGenerator()
