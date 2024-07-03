@@ -1,50 +1,75 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import re
 
-import cloudscraper
-import requests
-from bs4 import BeautifulSoup
+import re
 import os
 import shutil
 import sys
-import logging
-import glob
 import json
-import img2pdf
 import math
 import threading
+import logging
+import glob
+import img2pdf
+import requests
+import cloudscraper
+from bs4 import BeautifulSoup
 from tqdm import tqdm
-is_py2 = sys.version[0] == '2'
-if is_py2:
-    import Queue as queue
-else:
-    import queue as queue
+from queue import Queue
 
+def easy_slug(string, repl="-", directory=False):
+    """
+    Function to create slug-like strings from input strings.
 
-def easySlug(string, repl="-", directory=False):
-    import re
+    Args:
+        string (str): Input string to slugify.
+        repl (str): Replacement character for non-alphanumeric characters.
+        directory (bool): Flag indicating if the string is a directory name.
+
+    Returns:
+        str: Slugified string.
+    """
     if directory:
-        return re.sub("^\.|\.+$", "", easySlug(string, directory=False))
+        return re.sub("^\.|\.+$", "", easy_slug(string, directory=False))
     else:
-        return re.sub("[\\\\/:*?\"<>\|]|\ $", repl, string)
-
+        return re.sub(r"[\\\\/:*?\"<>\|]|\ $", repl, string)
 
 def merge_two_dicts(x, y):
-    z = x.copy()   # start with keys and values of x
-    z.update(y)    # modifies z with keys and values of y
+    """
+    Merge two dictionaries.
+
+    Args:
+        x (dict): First dictionary.
+        y (dict): Second dictionary.
+
+    Returns:
+        dict: Merged dictionary.
+    """
+    z = x.copy()
+    z.update(y)
     return z
 
+class GlobalFunctions:
+    """
+    Class containing global utility functions.
+    """
+    @staticmethod
+    def page_downloader(manga_url, scrapper_delay=5, **kwargs):
+        """
+        Download page source and cookies from a manga URL.
 
-class GlobalFunctions(object):
-    def page_downloader(self, manga_url, scrapper_delay=5, **kwargs):
-        headers = kwargs.get("headers")
-        if not headers:
-            headers = {
-                'User-Agent':
-                    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                'Accept-Encoding': 'gzip, deflate'
-            }
+        Args:
+            manga_url (str): URL of the manga page.
+            scrapper_delay (int): Delay for cloudscraper.
+            **kwargs: Additional arguments for headers, cookies.
+
+        Returns:
+            BeautifulSoup object, requests cookies: Parsed page source and connection cookies.
+        """
+        headers = kwargs.get("headers") or {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+            'Accept-Encoding': 'gzip, deflate'
+        }
         if kwargs.get('append_headers'):
             headers = merge_two_dicts(headers, dict(kwargs.get('append_headers')))
 
@@ -54,203 +79,222 @@ class GlobalFunctions(object):
         connection = sess.get(manga_url, headers=headers, cookies=kwargs.get("cookies"))
 
         if connection.status_code != 200:
-            print("Whoops! Seems like I can't connect to website.")
-            print("It's showing : %s" % connection)
-            print("Run this script with the --verbose argument and report the issue along with log file on Github.")
-            raise Warning("can't connect to website %s" % manga_url)
-        else:
-            page_source = BeautifulSoup(connection.text.encode("utf-8"), "html.parser")
-            connection_cookies = sess.cookies
+            raise Warning("Can't connect to website %s" % manga_url)
 
-            return page_source, connection_cookies
+        page_source = BeautifulSoup(connection.text.encode("utf-8"), "html.parser")
+        connection_cookies = sess.cookies
 
-    def downloader(self, image_and_name, referer, directory_path, **kwargs):
-        self.logging = kwargs.get("log_flag")
+        return page_source, connection_cookies
+
+    @staticmethod
+    def downloader(image_and_name, referer, directory_path, **kwargs):
+        """
+        Download images.
+
+        Args:
+            image_and_name (tuple): Tuple containing image URL and file name.
+            referer (str): Referer URL.
+            directory_path (str): Directory path to save images.
+            **kwargs: Additional arguments for headers, cookies, progress bar.
+
+        Raises:
+            Various exceptions on connection errors or HTTP errors.
+        """
+        logging.basicConfig(level=logging.DEBUG)
         pbar = kwargs.get("pbar")
 
         image_ddl = image_and_name[0]
         file_name = image_and_name[1]
-        file_check_path = str(directory_path) + os.sep + str(file_name)
+        file_check_path = os.path.join(directory_path, file_name)
 
-        logging.debug("File Check Path : %s" % file_check_path)
-        logging.debug("Download File Name : %s" % file_name)
+        logging.debug(f"File Check Path : {file_check_path}")
+        logging.debug(f"Download File Name : {file_name}")
 
         if os.path.isfile(file_check_path):
             pbar.write('[Comic-dl] File Exist! Skipping : %s\n' % file_name)
-            pass
+            return
 
-        if not os.path.isfile(file_check_path):
-            headers = {
-                'User-Agent':
-                    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
-                'Accept-Encoding': 'gzip, deflate',
-                'Referer': referer
-            }
-            if kwargs.get('append_headers'):
-                headers = merge_two_dicts(headers, dict(kwargs.get('append_headers')))
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36',
+            'Accept-Encoding': 'gzip, deflate',
+            'Referer': referer
+        }
+        if kwargs.get('append_headers'):
+            headers = merge_two_dicts(headers, dict(kwargs.get('append_headers')))
 
-            sess = requests.session()
-            sess = cloudscraper.create_scraper(sess)
-            try:
-                r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
-                r.raise_for_status()
-                if r.status_code != 200:
-                    pbar.write("Could not download the image.")
-                    pbar.write("Link said : %s" % r.status_code)
-                    pass
-                else:
-                    with open(file_name, 'wb') as f:
-                        for chunk in r.iter_content(chunk_size=1024):
-                            if chunk:
-                                f.write(chunk)
-                                f.flush()
+        sess = requests.session()
+        sess = cloudscraper.create_scraper(sess)
+        try:
+            r = sess.get(image_ddl, stream=True, headers=headers, cookies=kwargs.get("cookies"))
+            r.raise_for_status()
+            if r.status_code != 200:
+                pbar.write("Could not download the image.")
+                pbar.write("Link said : %s" % r.status_code)
+                return
+            else:
+                with open(file_check_path, 'wb') as f:
+                    for chunk in r.iter_content(chunk_size=1024):
+                        if chunk:
+                            f.write(chunk)
+                            f.flush()
 
-                    file_path = os.path.normpath(file_name)
-                    try:
-                        shutil.move(file_path, directory_path)
-                    except Exception as file_moving_exception:
-                        pbar.write(file_moving_exception)
-                        os.remove(file_path)
-                        raise file_moving_exception
-            except requests.exceptions.HTTPError as errh:
-                pbar.write("Http Error:")
-                pbar.write(errh.message)
-                raise
-            except requests.exceptions.ConnectionError as errc:
-                pbar.write("Error Connecting:")
-                pbar.write(errc.message)
-                raise
-            except requests.exceptions.Timeout as errt:
-                pbar.write("Timeout Error:")
-                pbar.write(errt.message)
-                raise
-            except requests.exceptions.RequestException as err:
-                pbar.write("OOps: Something Else")
-                pbar.write(err.message)
-                raise
-            except Exception as ex:
-                pbar.write("Some problem occurred while downloading this image: %s " % file_name)
-                pbar.write(ex)
-                raise
+                file_path = os.path.normpath(file_check_path)
+                try:
+                    shutil.move(file_path, directory_path)
+                except Exception as file_moving_exception:
+                    pbar.write(str(file_moving_exception))
+                    os.remove(file_path)
+                    raise file_moving_exception
+        except requests.exceptions.RequestException as ex:
+            pbar.write("Error occurred while downloading: %s" % file_name)
+            pbar.write(str(ex))
+            raise
+        finally:
+            pbar.update()
 
-        pbar.update()
+    @staticmethod
+    def conversion(directory_path, conversion, keep_files, comic_name, chapter_number):
+        """
+        Convert downloaded images to PDF or CBZ format.
 
-    def conversion(self, directory_path, conversion, keep_files, comic_name, chapter_number):
-        main_directory = str(directory_path).split(os.sep)
+        Args:
+            directory_path (str): Directory containing images.
+            conversion (str): Desired conversion format ('pdf', 'cbz', etc.).
+            keep_files (bool): Flag to indicate whether to keep original files.
+            comic_name (str): Name of the comic.
+            chapter_number (int): Chapter number.
+
+        Raises:
+            Various exceptions during file operations or conversion errors.
+        """
+        main_directory = directory_path.split(os.sep)
         main_directory.pop()
-        converted_file_directory = str(os.sep.join(main_directory)) + os.sep
+        converted_file_directory = os.path.join(os.sep.join(main_directory)) + os.sep
 
-        if str(conversion).lower().strip() in ['pdf']:
-            # Such kind of lambda functions and breaking is dangerous...
-            im_files = [image_files for image_files in sorted(glob.glob(str(directory_path) + "/" + "*.jpg"),
-                                                              key=lambda x: int(
-                                                                  str((x.split('.')[0])).split(os.sep)[-1]))]
-            pdf_file_name = str(converted_file_directory) + "{0} - Ch {1}.pdf".format(easySlug(comic_name), chapter_number)
-            try:
-                # This block is same as the one in the "cbz" conversion section. Check that one.
+        try:
+            if str(conversion).lower().strip() == 'pdf':
+                im_files = [image_files for image_files in sorted(glob.glob(os.path.join(directory_path, "*.jpg")),
+                                                                  key=lambda x: int(os.path.split(x)[1].split('.')[0]))]
+                pdf_file_name = os.path.join(converted_file_directory, "{0} - Ch {1}.pdf".format(easy_slug(comic_name), chapter_number))
                 if os.path.isfile(pdf_file_name):
-                    print('[Comic-dl] CBZ File Exist! Skipping : {0}\n'.format(pdf_file_name))
-                    pass
+                    print('[Comic-dl] PDF File Exist! Skipping : {0}\n'.format(pdf_file_name))
+                    return
                 else:
                     with open(pdf_file_name, "wb") as f:
                         f.write(img2pdf.convert(im_files))
-                        print("Converted the file to pdf...")
-            except Exception as FileWriteError:
-                print("Couldn't write the pdf file...")
-                print(FileWriteError)
-                # Let's not delete the files if the conversion failed...
-                keep_files = "False"
-                pass
+                        print("Converted the file to PDF...")
+                        return
 
-        elif str(conversion).lower().strip() in ['cbz']:
+            elif str(conversion).lower().strip() == 'cbz':
+                cbz_file_name = os.path.join(converted_file_directory, "{0} - Ch {1}".format(easy_slug(comic_name), chapter_number))
+                print("CBZ File : {0}".format(cbz_file_name))
 
-            cbz_file_name = str(converted_file_directory) + "{0} - Ch {1}".format(easySlug(comic_name), chapter_number)
-            print("CBZ File : {0}".format(cbz_file_name))
-
-            try:
-                """If the .cbz file exists, we don't need to make it again. If we do make it again, it'll make the 
-                .zip file and will hit and exception about file existing already. This raised #105.
-                So, to fix the #105, we'll add this check and make things work just fine."""
-                if os.path.isfile(str(cbz_file_name) + ".cbz"):
+                if os.path.isfile(cbz_file_name + ".cbz"):
                     print('[Comic-dl] CBZ File Exist! Skipping : {0}\n'.format(cbz_file_name))
-                    pass
+                    return
                 else:
                     shutil.make_archive(cbz_file_name, 'zip', directory_path)
-                    os.rename(str(cbz_file_name) + ".zip", (str(cbz_file_name)+".zip").replace(".zip", ".cbz"))
-            except Exception as CBZError:
-                print("Couldn't write the cbz file...")
-                print(CBZError)
-                # Let's not delete the files if the conversion failed...
-                keep_files = "True"
-                pass
+                    os.rename(cbz_file_name + ".zip", cbz_file_name + ".cbz")
+                    return
 
-        elif str(conversion) == "None":
-            pass
+            elif str(conversion).lower().strip() == "none":
+                return
 
-        else:
-            print("Seems like that conversion isn't supported yet. Please report it on the repository...")
-            pass
+            else:
+                print("Unsupported conversion format: %s" % conversion)
+                return
 
-        if str(keep_files).lower().strip() in ['no', 'false', 'delete']:
-            try:
-                shutil.rmtree(path=directory_path, ignore_errors=True)
-            except Exception as DirectoryDeleteError:
-                print("Couldn't move the file or delete the directory.")
-                print(DirectoryDeleteError)
-                pass
-            print("Deleted the files...")
+        except Exception as ex:
+            print("Error occurred during conversion: %s" % str(ex))
+            return
 
-    def addOne(self, comicUrl):
-        # @dsanchezseco
-        # edit config.json to update nextChapter value
-        # @darodi
-        # update based on the url value instead of the key value
-        data = json.load(open('config.json'))
-        for elKey in data["comics"]:
-            json_url = data["comics"][elKey]["url"]
-            if json_url == comicUrl or json_url == comicUrl + "/":
-                data["comics"][elKey]["next"] = data["comics"][elKey]["next"] + 1
-        json.dump(data, open('config.json', 'w'), indent=4)
+        finally:
+            if str(keep_files).lower().strip() in ['no', 'false', 'delete']:
+                try:
+                    shutil.rmtree(path=directory_path, ignore_errors=True)
+                    print("Deleted the files...")
+                except Exception as DirectoryDeleteError:
+                    print("Failed to delete the directory: %s" % str(DirectoryDeleteError))
 
-    def prepend_zeroes(self, current_chapter_value, total_images):
+    @staticmethod
+    def add_one(comic_url):
         """
-        :param current_chapter_value: Int value of current page number. Example : 1, 2, 3
-        :param total_images: Total number of images in the
-        :return:
+        Increment 'next' value in JSON configuration file for a given comic URL.
+
+        Args:
+            comic_url (str): URL of the comic.
+
+        Raises:
+            FileNotFoundError: If config.json file is not found.
+            JSONDecodeError: If config.json is not a valid JSON file.
+        """
+        try:
+            with open('config.json', 'r') as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError) as ex:
+            print("Error loading config.json: %s" % str(ex))
+            return
+
+        for elKey in data.get("comics", {}).keys():
+            json_url = data["comics"][elKey]["url"]
+            if json_url == comic_url or json_url == comic_url + "/":
+                data["comics"][elKey]["next"] += 1
+
+        try:
+            with open('config.json', 'w') as f:
+                json.dump(data, f, indent=4)
+        except Exception as ex:
+            print("Error writing to config.json: %s" % str(ex))
+            return
+
+    @staticmethod
+    def prepend_zeroes(current_chapter_value, total_images):
+        """
+        Add leading zeroes to current chapter value.
+
+        Args:
+            current_chapter_value (int): Current chapter number.
+            total_images (int): Total number of images.
+
+        Returns:
+            str: Formatted chapter number with leading zeroes.
         """
         max_digits = int(math.log10(int(total_images))) + 1
         return str(current_chapter_value).zfill(max_digits)
 
-    def multithread_download(self, chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag,
+    @staticmethod
+    def multithread_download(chapter_number, comic_name, comic_url, directory_path, file_names, links, log_flag,
                              pool_size=4, **kwargs):
         """
-        :param chapter_number: string used for the progress bar
-        :param comic_name: string used for the progress bar
-        :param comic_url: used for the referer
-        :param directory_path: used to download
-        :param file_names: files names to download
-        :param links: links to download
-        :param log_flag: log flag
-        :param pool_size: thread pool size, default = 4
-        :return 0 if no error
-        """
+        Download images using multiple threads.
 
+        Args:
+            chapter_number (int): Chapter number.
+            comic_name (str): Name of the comic.
+            comic_url (str): URL of the comic.
+            directory_path (str): Directory path to save images.
+            file_names (list): List of file names to download.
+            links (list): List of image URLs.
+            log_flag (bool): Flag for logging.
+            pool_size (int): Number of threads.
+            **kwargs: Additional arguments for headers, cookies, progress bar.
+        """
         def worker():
             while True:
                 try:
                     worker_item = in_queue.get()
-                    self.downloader(referer=comic_url, directory_path=directory_path, pbar=pbar, log_flag=log_flag,
-                                    image_and_name=worker_item, **kwargs)
+                    GlobalFunctions.downloader(referer=comic_url, directory_path=directory_path, pbar=pbar, log_flag=log_flag,
+                                               image_and_name=worker_item, **kwargs)
                     in_queue.task_done()
-                except queue.Empty as ex1:
-                    logging.info(ex1)
+                except Queue.empty:
+                    logging.info("Queue is empty.")
                     return
                 except Exception as ex:
                     err_queue.put(ex)
                     in_queue.task_done()
 
-        in_queue = queue.Queue()
-        err_queue = queue.Queue()
+        in_queue = Queue()
+        err_queue = Queue()
 
         pbar = tqdm(links, leave=True, unit='image(s)', position=0)
         pbar.set_description('[Comic-dl] Downloading : %s [%s] ' % (comic_name, chapter_number))
@@ -263,25 +307,36 @@ class GlobalFunctions(object):
         for item in zip(links, file_names):
             in_queue.put(item)
 
-        in_queue.join()  # block until all tasks are done
+        in_queue.join()
 
         try:
-            err = err_queue.get(block=False)
-            pbar.set_description('[Comic-dl] Error : %s [%s] - %s ' % (comic_name, chapter_number, err))
-            raise err
-        except queue.Empty:
+            while not err_queue.empty():
+                err = err_queue.get(block=False)
+                pbar.set_description('[Comic-dl] Error : %s [%s] - %s ' % (comic_name, chapter_number, err))
+                raise err
+        except Queue.empty:
             pbar.set_description('[Comic-dl] Done : %s [%s] ' % (comic_name, chapter_number))
-            return 0
         finally:
             pbar.close()
 
     @staticmethod
     def create_file_directory(chapter_number, comic_name, dynamic_sub=None):
+        """
+        Create directory path for storing downloaded files.
+
+        Args:
+            chapter_number (int): Chapter number.
+            comic_name (str): Name of the comic.
+            dynamic_sub (str): Optional dynamic substring for directory name.
+
+        Returns:
+            str: File directory path.
+        """
         comic = comic_name
         if dynamic_sub:
             comic = re.sub(rf'[^\w\-_. \[\]{dynamic_sub}]', '-', str(comic_name))
         else:
-            comic = re.sub('[^\w\-_. \[\]]', '-', str(comic_name))
-        chapter = re.sub('[^\w\-_. \[\]]', '-', str(chapter_number))
+            comic = re.sub(r'[^\w\-_. \[\]]', '-', str(comic_name))
+        chapter = re.sub(r'[^\w\-_. \[\]]', '-', str(chapter_number))
         file_directory = comic + os.sep + chapter + os.sep
         return file_directory
