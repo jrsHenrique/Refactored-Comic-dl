@@ -7,22 +7,27 @@ import os
 import logging
 import jsbeautifier
 
-from comic_dl.sites import mangaDownloader
 
-
-class MangaFox(mangaDownloader):
+class MangaFox(object):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
+
+        current_directory = kwargs.get("current_directory")
+        conversion = kwargs.get("conversion")
+        keep_files = kwargs.get("keep_files")
+        self.logging = kwargs.get("log_flag")
+        self.sorting = kwargs.get("sorting_order")
+        self.comic_name = self.name_cleaner(manga_url)
         url_split = str(manga_url).split("/")
-        
+        self.print_index = kwargs.get("print_index")
+
         if len(url_split) == 5:
             self.full_series(comic_url=manga_url, comic_name=self.comic_name, sorting=self.sorting,
                              download_directory=download_directory, chapter_range=chapter_range, conversion=conversion,
-                             keep_files=self.keep_files)
+                             keep_files=keep_files)
         else:
             self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                keep_files=self.keep_files)
-        
+                                keep_files=keep_files)
+
     def name_cleaner(self, url):
         initial_name = str(url).split("/")[4].strip()
         safe_name = re.sub(r"[0-9][a-z][A-Z]\ ", "", str(initial_name))
