@@ -3,32 +3,20 @@
 
 from comic_dl import globalFunctions
 import os
+from comic_dl.sites.mangaDownloader import MangaDownloader
 
-
-class ReadComicsIO():
+class ReadComicsIO(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
-        current_directory = kwargs.get("current_directory")
-        conversion = kwargs.get("conversion")
-        keep_files = kwargs.get("keep_files")
-        self.logging = kwargs.get("log_flag")
+        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
         self.sorting = kwargs.get("sorting_order")
-        self.comic_name = self.name_cleaner(manga_url)
         self.print_index = kwargs.get("print_index")
-
-        if "/comic/" in manga_url:
-            # https://readcomics.io/the-walking-dead/chapter-178/full
-            self.full_series(comic_url=manga_url, comic_name=self.comic_name,
-                             sorting=self.sorting, download_directory=download_directory, chapter_range=chapter_range,
-                             conversion=conversion, keep_files=keep_files)
-        else:
-            if "/full" not in manga_url:
-                manga_url += "/full"
-            self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                keep_files=keep_files)
 
     def name_cleaner(self, url):
         manga_name = str(str(url).split("/")[3].strip().replace("_", " ").replace("-", " ").title())
         return manga_name
+
+    def is_full_series(self, url):
+        return "/comic/" in url
 
     def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
         chapter_number = str(str(comic_url).split("/")[4].strip().replace("_", " ").replace("-", " ").title())
@@ -72,7 +60,6 @@ class ReadComicsIO():
             x = single_node.findAll('a')
             for a in x:
                 all_links.append(str(a['href']).strip())
-
         if chapter_range != "All":
             # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
             starting = int(str(chapter_range).split("-")[0]) - 1

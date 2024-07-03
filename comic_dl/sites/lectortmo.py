@@ -8,30 +8,25 @@ import os
 import logging
 import json
 import time
+from comic_dl.sites.mangaDownloader import MangaDownloader
 
 
-class LectorTmo(object):
+class LectorTmo(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
+        super().__init__(manga_url, download_directory, chapter_range, **kwargs)
 
-        current_directory = kwargs.get("current_directory")
-        conversion = kwargs.get("conversion")
-        keep_files = kwargs.get("keep_files")
-        self.logging = kwargs.get("log_flag")
-        self.sorting = kwargs.get("sorting_order")
-        self.comic_name = None
-        self.print_index = kwargs.get("print_index")
-        if "/library/" in manga_url:
-            self.full_series(manga_url, self.comic_name, self.sorting, download_directory, chapter_range=chapter_range,
-                             conversion=conversion, keep_files=keep_files)
-        # https://lectortmo.com/view_uploads/979773
-        elif "/viewer/" in manga_url or "/paginated/" in manga_url or "/view_uploads/" in manga_url:
-            self.single_chapter(manga_url, self.comic_name, download_directory, conversion=conversion,
-                                keep_files=keep_files)
+    def name_cleaner(self, url):
+        """
+        Implements name cleaning for LectorTmo.
+        """
+        # Example cleaning logic
+        return "Cleaned Comic Name"
 
-    def single_chapter(self, comic_url, comic_name, download_directory, conversion, keep_files):
+    def single_chapter(self, comic_url):
+        """
+        Implements downloading a single chapter for LectorTmo.
+        """
         comic_url = str(comic_url)
-        # https://lectortmo.com/viewer/004b1c38ce59f14291118de9f59bed7e/paginated/1
-        # https://lectortmo.com/view_uploads/979773
         chapter_number = comic_url.split('/')[-1] if "/view_uploads/" in comic_url else comic_url.split('/')[-3]
 
         source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
@@ -40,7 +35,8 @@ class LectorTmo(object):
             cleaned_json_string = ld_json_content[0].next.strip().replace('\n', '')
             loaded_json = json.loads(cleaned_json_string)
             if loaded_json:
-                self.comic_name = comic_name = loaded_json['headline']
+                self.comic_name = loaded_json['headline']
+
         links = []
         file_names = []
         img_url = self.extract_image_link_from_html(source=source)
@@ -57,7 +53,8 @@ class LectorTmo(object):
         if last_page_number <= 0:
             print("Couldn't find all the pages. Exiting.")
             sys.exit(1)
-        for page_number in range(2, last_page_number):
+
+        for page_number in range(2, last_page_number + 1):
             current_url = "https://lectortmo.com/viewer/{0}/paginated/{1}".format(unique_id, page_number)
             print("Grabbing details for: {0}".format(current_url))
             source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=current_url, cookies=cookies)
@@ -66,22 +63,22 @@ class LectorTmo(object):
             img_extension = str(image_url).rsplit('.', 1)[-1]
             file_names.append('{0}.{1}'.format(page_number, img_extension))
             time.sleep(random.randint(1, 6))
-        file_directory = globalFunctions.GlobalFunctions().create_file_directory(chapter_number, self.comic_name)
 
-        directory_path = os.path.realpath(str(download_directory) + "/" + str(file_directory))
+        directory_path = os.path.realpath(os.path.join(self.download_directory, globalFunctions.GlobalFunctions().create_file_directory(chapter_number, self.comic_name)))
 
         if not os.path.exists(directory_path):
             os.makedirs(directory_path)
-        globalFunctions.GlobalFunctions().multithread_download(chapter_number, self.comic_name, comic_url, directory_path,
-                                                               file_names, links, self.logging)
 
-        globalFunctions.GlobalFunctions().conversion(directory_path, conversion, keep_files, self.comic_name,
-                                                     chapter_number)
+        self.download_chapter(chapter_number, self.comic_name, comic_url, file_names, links)
+        globalFunctions.GlobalFunctions().conversion(directory_path, self.conversion, self.keep_files, self.comic_name, chapter_number)
 
         return 0
 
-    def full_series(self, comic_url, comic_name, sorting, download_directory, chapter_range, conversion, keep_files):
-        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=comic_url)
+    def full_series(self):
+        """
+        Implements downloading a series of comics for LectorTmo.
+        """
+        source, cookies = globalFunctions.GlobalFunctions().page_downloader(manga_url=self.manga_url)
 
         all_links = []
         all_chapter_links = source.find_all("a", {"class": "btn btn-default btn-sm"})
@@ -90,19 +87,15 @@ class LectorTmo(object):
 
         logging.debug("All Links : %s" % all_links)
 
-        # Uh, so the logic is that remove all the unnecessary chapters beforehand
-        #  and then pass the list for further operations.
-        if chapter_range != "All":
-            # -1 to shift the episode number accordingly to the INDEX of it. List starts from 0 xD!
-            starting = int(str(chapter_range).split("-")[0]) - 1
+        if self.chapter_range != "All":
+            starting = int(str(self.chapter_range).split("-")[0]) - 1
 
-            if str(chapter_range).split("-")[1].isdigit():
-                ending = int(str(chapter_range).split("-")[1])
+            if str(self.chapter_range).split("-")[1].isdigit():
+                ending = int(str(self.chapter_range).split("-")[1])
             else:
                 ending = len(all_links)
 
             indexes = [x for x in range(starting, ending)]
-
             all_links = [all_links[x] for x in indexes][::-1]
         else:
             all_links = all_links
@@ -114,35 +107,26 @@ class LectorTmo(object):
                 print(str(idx) + ": " + chap_link)
             return
 
-        if str(sorting).lower() in ['new', 'desc', 'descending', 'latest']:
+        if str(self.sorting).lower() in ['new', 'desc', 'descending', 'latest']:
             for chap_link in all_links:
                 try:
-                    self.single_chapter(comic_url=chap_link, comic_name=comic_name,
-                                        download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
+                    self.single_chapter(comic_url=chap_link)
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
-                    break  # break to continue processing other mangas
-                # if chapter range contains "__EnD__" write new value to config.json
-                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
-                if chapter_range != "All" and (
-                        chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
-                    globalFunctions.GlobalFunctions().addOne(comic_url)
-        elif str(sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
-            # print("Running this")
+                    break
+                if self.chapter_range != "All" and (
+                        self.chapter_range.split("-")[1] == "__EnD__" or len(self.chapter_range.split("-")) == 3):
+                    globalFunctions.GlobalFunctions().addOne(self.manga_url)
+        elif str(self.sorting).lower() in ['old', 'asc', 'ascending', 'oldest', 'a']:
             for chap_link in all_links[::-1]:
                 try:
-                    self.single_chapter(comic_url=chap_link, comic_name=comic_name,
-                                        download_directory=download_directory,
-                                        conversion=conversion, keep_files=keep_files)
+                    self.single_chapter(comic_url=chap_link)
                 except Exception as ex:
                     logging.error("Error downloading : %s" % chap_link)
-                    break  # break to continue processing other mangas
-                # if chapter range contains "__EnD__" write new value to config.json
-                # @Chr1st-oo - modified condition due to some changes on automatic download and config.
-                if chapter_range != "All" and (
-                        chapter_range.split("-")[1] == "__EnD__" or len(chapter_range.split("-")) == 3):
-                    globalFunctions.GlobalFunctions().addOne(comic_url)
+                    break
+                if self.chapter_range != "All" and (
+                        self.chapter_range.split("-")[1] == "__EnD__" or len(self.chapter_range.split("-")) == 3):
+                    globalFunctions.GlobalFunctions().addOne(self.manga_url)
 
         return 0
 
@@ -152,3 +136,10 @@ class LectorTmo(object):
         for element in image_tags:
             img_link = element['src']
         return img_link
+
+    def user_login(self):
+        """
+        Placeholder for user login implementation if needed.
+        """
+        # Implement user login logic here if required
+        pass

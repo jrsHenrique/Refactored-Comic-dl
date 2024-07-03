@@ -3,14 +3,12 @@
 
 from comic_dl import globalFunctions
 import requests
-import cloudscraper
-from bs4 import BeautifulSoup
 import sys
 import re
 import os
-
 from comic_dl.sites.mangaDownloader import MangaDownloader
-
+from bs4 import BeautifulSoup
+import cloudscraper
 
 class Batoto(MangaDownloader):
     def __init__(self, manga_url, download_directory, chapter_range, **kwargs):
